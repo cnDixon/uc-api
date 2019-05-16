@@ -1,10 +1,16 @@
 package com.kdg.cores;
 
-import com.kdg.cores.connections.JedisConn;
+import com.kdg.cores.connections.RedisConnPool;
 import com.kdg.cores.entity.Developer;
+import com.kdg.cores.entity.Task;
+import com.kdg.cores.entity.argOptions;
+import com.kdg.cores.pubCores.ArgsParser;
+import com.kdg.cores.pubCores.Finished;
 import com.kdg.cores.pubCores.Resource;
 import org.apache.log4j.Logger;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Map;
 
 
@@ -12,6 +18,7 @@ public class ListHandler extends Resource {
 
     private static Logger logger = Logger.getLogger(ListHandler.class.getSimpleName());
 
+    private argOptions argOptions;
     private String logName;
     private String apiPath;
     private Developer developer;
@@ -23,10 +30,11 @@ public class ListHandler extends Resource {
     private int batchSize = 200;
     private int keysReserveDays = 3;
 
-    private JedisConn jedisConn = new JedisConn(threadNum);
+    private RedisConnPool redisConnPool;
 
 
-    public ListHandler(String logName, String apiPath, Developer developer, String hbaseTableName) {
+    public ListHandler(String[] args, String logName, String apiPath, Developer developer, String hbaseTableName) {
+        this.argOptions = ArgsParser.argsParser(args);
         this.logName = logName;
         this.apiPath = apiPath;
         this.developer = developer;
@@ -57,10 +65,15 @@ public class ListHandler extends Resource {
         this.keysReserveDays = keysReserveDays;
     }
 
+    private void createResource() {
+        redisConnPool = new RedisConnPool(threadNum);
+    }
 
     public void run() {
 
         try {
+
+            createResource();
 
             threadsExecute();
         } catch (Exception e) {
@@ -69,8 +82,17 @@ public class ListHandler extends Resource {
     }
 
     private void threadsExecute() {
-
-//        this.getResource()
+        ArrayList<Task> resource;
+        try {
+            resource = this.getResource(argOptions.getAccountKey(), redisConnPool.getConn(), params, argOptions.getInputAccounts(), argOptions.getInputAgents(), argOptions
+                    .getDate(), isNeedAccounts);
+        } catch (SQLException e) {
+            logger.error("get agent error.", e);
+            Finished.finished(1);
+        } catch (ClassNotFoundException e) {
+            logger.error("get agent error.", e);
+            Finished.finished(1);
+        }
     }
 }
 
