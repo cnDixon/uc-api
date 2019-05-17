@@ -1,6 +1,6 @@
 package com.kdg.cores.pubCores;
 
-import com.kdg.cores.entity.argOptions;
+import com.kdg.cores.entity.ArgOptions;
 import com.kdg.cores.tools.TimeTools;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.DefaultParser;
@@ -14,7 +14,7 @@ public class ArgsParser {
 
     private static Logger logger = Logger.getLogger(ArgsParser.class.getSimpleName());
 
-    public static argOptions argsParser(String[] args) {
+    public static ArgOptions argsParser(String[] args) {
 
         Options options = new Options();
         options.addOption("d", true, "date");
@@ -45,7 +45,7 @@ public class ArgsParser {
 
             if (null == redisKeys) redisKeys = new String[]{};
 
-            return new argOptions(date, accountKey, Arrays.asList(redisKeys), Arrays.asList(accounts), Arrays.asList(agents));
+            return new ArgOptions(date, accountKey, Arrays.asList(redisKeys), Arrays.asList(accounts), Arrays.asList(agents));
         } catch (ParseException e) {
             e.printStackTrace();
             logger.error("args format error, check pls.", e);

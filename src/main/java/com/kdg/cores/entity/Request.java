@@ -1,26 +1,26 @@
 package com.kdg.cores.entity;
 
-import java.util.Map;
+import com.alibaba.fastjson.JSONObject;
 
 public class Request {
 
-    private Map headers;
-    private Map body;
+    private JSONObject headers;
+    private JSONObject body;
     private String agent;
     private String account;
 
-    public Request(Map headers, Map body, String agent, String account) {
+    public Request(JSONObject headers, JSONObject body, String agent, String account) {
         this.headers = headers;
         this.body = body;
         this.agent = agent;
         this.account = account;
     }
 
-    public Map getHeaders() {
+    public JSONObject getHeaders() {
         return headers;
     }
 
-    public Map getBody() {
+    public JSONObject getBody() {
         return body;
     }
 

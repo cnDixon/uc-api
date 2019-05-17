@@ -1,7 +1,7 @@
 package com.kdg.cores.pubCores;
 
 import com.kdg.cores.entity.Agent;
-import com.kdg.cores.entity.Task;
+import com.kdg.cores.entity.Request;
 import org.apache.log4j.Logger;
 import redis.clients.jedis.Jedis;
 
@@ -18,11 +18,11 @@ public class Resource {
     /**
      * 生成源数据
      */
-    public ArrayList<Task> getResource(
+    protected ArrayList<Request> getResource(
             String accountKey, Jedis jedis, Map inputParams, List inputAccounts, List inputAgents, String date,
             boolean isNeedAccounts) throws SQLException, ClassNotFoundException {
 
-        ArrayList<Task> tasks;
+        ArrayList<Request> reqs;
 
         Map<String, Agent> agents = MysqlTools.getAgents();
 
@@ -37,17 +37,17 @@ public class Resource {
 
             // 指定账户列表
             if (inputAccounts.size() > 0) {
-                tasks = byAccount(agents, accountKey, jedis, inputAccounts, date);
+                reqs = byAccount(agents, accountKey, jedis, inputAccounts, date);
             }
 
             // 指定代理商
             else if (inputAgents.size() > 0) {
-                tasks = byAgentWithAccount(agents, accountKey, jedis, inputAgents, date);
+                reqs = byAgentWithAccount(agents, accountKey, jedis, inputAgents, date);
             }
 
             // 全部账户
             else {
-                tasks = allAccounts(agents, accountKey, jedis, date);
+                reqs = allAccounts(agents, accountKey, jedis, date);
             }
         }
 
@@ -56,40 +56,40 @@ public class Resource {
 
             // 指定代理商
             if (inputAgents.size() > 0) {
-                tasks = byAgentWithoutAccount(agents, accountKey, jedis, inputAgents, date);
+                reqs = byAgentWithoutAccount(agents, accountKey, jedis, inputAgents, date);
             }
 
             // 全部代理商
             else {
-                tasks = allAgents(agents, accountKey, jedis, date);
+                reqs = allAgents(agents, accountKey, jedis, date);
             }
         }
 
-        return tasks;
+        return reqs;
     }
 
-    private static ArrayList<Task> byAccount(Map<String, Agent> agents, String accountKey, Jedis jedis, List inputAccounts, String date) {
-        ArrayList<Task> tasks = new ArrayList<Task>();
-        return tasks;
+    private static ArrayList<Request> byAccount(Map<String, Agent> agents, String accountKey, Jedis jedis, List inputAccounts, String date) {
+        ArrayList<Request> reqs = new ArrayList<Request>();
+        return reqs;
     }
 
-    private static ArrayList<Task> byAgentWithAccount(Map<String, Agent> agents, String accountKey, Jedis jedis, List inputAgents, String date) {
-        ArrayList<Task> tasks = new ArrayList<Task>();
-        return tasks;
+    private static ArrayList<Request> byAgentWithAccount(Map<String, Agent> agents, String accountKey, Jedis jedis, List inputAgents, String date) {
+        ArrayList<Request> reqs = new ArrayList<Request>();
+        return reqs;
     }
 
-    private static ArrayList<Task> allAccounts(Map<String, Agent> agents, String accountKey, Jedis jedis, String date) {
-        ArrayList<Task> tasks = new ArrayList<Task>();
-        return tasks;
+    private static ArrayList<Request> allAccounts(Map<String, Agent> agents, String accountKey, Jedis jedis, String date) {
+        ArrayList<Request> reqs = new ArrayList<Request>();
+        return reqs;
     }
 
-    private static ArrayList<Task> byAgentWithoutAccount(Map<String, Agent> agents, String accountKey, Jedis jedis, List inputAgents, String date) {
-        ArrayList<Task> tasks = new ArrayList<Task>();
-        return tasks;
+    private static ArrayList<Request> byAgentWithoutAccount(Map<String, Agent> agents, String accountKey, Jedis jedis, List inputAgents, String date) {
+        ArrayList<Request> reqs = new ArrayList<Request>();
+        return reqs;
     }
 
-    private static ArrayList<Task> allAgents(Map<String, Agent> agents, String accountKey, Jedis jedis, String date) {
-        ArrayList<Task> tasks = new ArrayList<Task>();
-        return tasks;
+    private static ArrayList<Request> allAgents(Map<String, Agent> agents, String accountKey, Jedis jedis, String date) {
+        ArrayList<Request> reqs = new ArrayList<Request>();
+        return reqs;
     }
 }

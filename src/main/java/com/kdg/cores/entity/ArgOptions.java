@@ -2,7 +2,7 @@ package com.kdg.cores.entity;
 
 import java.util.List;
 
-public class argOptions {
+public class ArgOptions {
 
     private String date;
     private String accountKey;
@@ -10,7 +10,7 @@ public class argOptions {
     private List<String> inputAccounts;
     private List<String> inputAgents;
 
-    public argOptions(String date, String accountKey, List<String> redisKeys, List<String> inputAccounts, List<String> inputAgents) {
+    public ArgOptions(String date, String accountKey, List<String> redisKeys, List<String> inputAccounts, List<String> inputAgents) {
         this.date = date;
         this.accountKey = accountKey;
         this.redisKeys = redisKeys;
@@ -40,7 +40,7 @@ public class argOptions {
 
     @Override
     public String toString() {
-        return "argOptions{" +
+        return "ArgOptions{" +
                 "date='" + date + '\'' +
                 ", accountKey='" + accountKey + '\'' +
                 ", redisKeys=" + redisKeys +
